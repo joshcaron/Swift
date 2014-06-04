@@ -104,11 +104,134 @@ var annie = Savings(id: 2992, name: "Annie Proulx", balance: 800, interestRate: 
 
 
 // Problem 5.3 on page 43
+// Ignoring
 
 // Problem 10.6 on page 102
+class Image {
+    var width: Int
+    var height: Int
+    var source: String
+    
+    init(width: Int, height: Int, source: String) {
+        self.width = width
+        self.height = height
+        self.source = source
+    }
+    
+    func sizeString() -> String {
+        let area = width * height
+        if area <= 10_000 {
+            return "small"
+        } else if area > 10_000 && area <= 1_000_000 {
+            return "medium"
+        } else {
+            return "large"
+        }
+    }
+}
+
 
 // Problem 11.2 on page 113
+struct TemperatureRange {
+    var high: Int
+    var low: Int
+}
+
+class WeatherRecord {
+    let date: SimpleDate
+    let today: TemperatureRange
+    let normal: TemperatureRange
+    let record: TemperatureRange
+    let precipitation: Double
+    
+    init(date: SimpleDate, today: TemperatureRange, normal: TemperatureRange, record: TemperatureRange, precipitation: Double) {
+        self.date = date
+        self.today = today
+        self.normal = normal
+        self.record = record
+        self.precipitation = precipitation
+    }
+    
+    func withinRange() -> Bool {
+        return today.low >= normal.low && today.high <= normal.high
+    }
+    
+    func rainyDay(amount: Double) -> Bool {
+        return precipitation > amount
+    }
+    
+    func recordDay() -> Bool {
+        return today.low < record.low || today.high > record.high
+    }
+}
+
 
 // Problem 12.1 on page 125
+// Do later, too much effort
 
 // Problem 14.7 on page 140
+
+class GroceryItem {
+    let brandName: String
+    let weight: Double
+    let price: Double
+    
+    var unitPrice: Double {
+    return price / weight
+    }
+    
+    init(brandName: String, weight: Double, price: Double) {
+        self.brandName = brandName
+        self.weight = weight
+        self.price = price
+    }
+    
+    func lowerUnitPrice(amount: Double) -> Bool {
+        return self.unitPrice < amount
+    }
+    
+    func cheaperThan(other: GroceryItem) -> Bool {
+        return self.lowerUnitPrice(other.unitPrice)
+    }
+}
+
+class IceCream: GroceryItem {
+    let flavor: String
+    
+    init(brandName: String, weight: Double, price: Double, flavor: String) {
+        self.flavor = flavor
+        super.init(brandName: brandName, weight: weight, price: price)
+    }
+}
+
+enum CoffeeType {
+    case Regular
+    case Decaffeinated
+}
+
+class Coffee: GroceryItem {
+    let type: CoffeeType
+    
+    init(brandName: String, weight: Double, price: Double, type: CoffeeType) {
+        self.type = type
+        super.init(brandName: brandName, weight: weight, price: price)
+    }
+}
+
+enum JuiceState {
+    case Frozen
+    case Fresh
+    case Bottled
+    case Canned
+}
+
+class Juice: GroceryItem {
+    let flavor: String
+    let state: JuiceState
+    
+    init(brandName: String, weight: Double, price: Double, flavor: String, state: JuiceState) {
+        self.flavor = flavor
+        self.state = state
+        super.init(brandName: brandName, weight: weight, price: price)
+    }
+}
